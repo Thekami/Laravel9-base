@@ -4,35 +4,39 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
+use App\Models\ErrorLog;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Auth;
+use App\Traits\ApiResponseTrait;
 
 class AuthController extends Controller
 {
-    CONST SUCCESS_MSG = "Correcto";
-    CONST ERROR_MSG = "Sucedió un error inesperado";
+    use ApiResponseTrait;
+    
+    protected $env;
+
     public function register(RegisterRequest $request){
+        
+        $this->env = config('app.env');
 
         try {
-            User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'username' =>$request->username,
+            $user = User::create([
+                'name'     => $request->name,
+                'email'    => $request->email,
+                'username' => $request->sername,
                 'password' => \Hash::make($request->password)
             ]);
         
-            return response([
-                'success' => true,
-                'data' => $request->all()
-            ], Response::HTTP_OK);
+            return $this->responseCreated($user);
 
         } catch (\Exception $e) {
-            return response([
-                'success' => true,
-                "message" => self::ERROR_MSG,
-                "error" => $e->getMessage()
-            ]);
+
+            $ErrorLog = new ErrorLog();
+            $ErrorLog->saveErrorLog(Auth::id(), "AuthController", 'Register', $e);
+            
+            return $this->env == 'local' 
+                ? $this->responseError($e->getMessage()) 
+                : $this->responseError();
         }
     }
 }
