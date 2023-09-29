@@ -21,7 +21,7 @@ class ErrorLog extends Model
         try {
             ErrorLog::create([
                 "user_id"    => $user_id,
-                "controler" => $controller,
+                "controller" => $controller,
                 "method"     => $method,
                 "message"    => $error->getMessage(),
                 "json"       => json_encode($error)

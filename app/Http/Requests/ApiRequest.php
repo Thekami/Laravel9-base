@@ -34,33 +34,6 @@ class ApiRequest extends Request
         ];
 	}
 
-
-	/**
-	 * Returns an array with the custom validation messages
-	 *
-	 * @return array
-	 */
-	public function messages()
-	{
-		return [
-	        'required'  			=>  'This field is required',
-	        'max'       			=>  'The max length is :max characters long',
-	        'min'	        		=>  'The min length is :min characters long',
-	        'email'     			=>  'The email address is not validd',
-	        'boolean'   			=>  'The possible values are true or false',
-	        'valid_zipcode' 		=>  'Invalid zip code',
-	        'in'       				=>  'The value is invalid',
-			'valid_address_type' 	=>	'Invalid object type',
-			'exp_month.max'			=>	'The given value is not valid',
-			'required_if' 			=>  'The :attribute is needed when :other is :value',
-			'unique_primary_address' => 'Cannot have more than one primary address. Update or delete existing one.',
-			'unique_fiscal_address' => 'Cannot have more than one fiscal address. Update or delete existing one.',
-			'unique_type_address'	=> 'Cannot have more than one address of this type',
-			'greater_than_zero'		=> 'The input has to be greater than zero',
-			'valid_password'		=> 'The password is incorrect',
-	    ];
-	}
-
     /**
      * Handle a failed validation attempt.
      *
