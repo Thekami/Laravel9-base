@@ -12,6 +12,7 @@ trait ApiResponseTrait
     protected $successMsg = "Acción realizada correctamente";
     protected $errorMsg = "Sucedió un error inesperado, intentelo mas tarde o pongase en contacto con el administrador del sistema";
     protected $notFoundMsg = "Recuerso no encontrado";
+    protected $UnautorizedMsg = "Acceso denegado";
 
     protected function responseCreated($data = []){
         return response([
@@ -29,10 +30,18 @@ trait ApiResponseTrait
 
     protected function responseNotFound($message = null){
         return response([
-            'success' => false,
+            'success' => true,
             'message' => is_null($message) ? $this->notFoundMsg : $message,
             'data' => [],
         ], Response::HTTP_NOT_FOUND);
+    }
+
+    protected function responseUnautorized($message = null){
+        return response([
+            'success' => true,
+            'message' => is_null($message) ? $this->UnautorizedMsg : $message,
+            'data' => [],
+        ], Response::HTTP_UNAUTHORIZED);
     }
 
     protected function responseError($error = '', $message = null, $statusCode = Response::HTTP_INTERNAL_SERVER_ERROR)

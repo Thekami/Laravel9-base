@@ -10,6 +10,8 @@ class ErrorLog extends Model
 {
     use HasFactory;
 
+    protected $table = 'error_logs';
+    
     protected $fillable = ['user_id', 'controller', 'method', 'message', 'json'];
 
     /**
